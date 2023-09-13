@@ -10,6 +10,15 @@ const Demo = () => {
   const [articles, setArticles] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
+  useEffect(() => {
+    const articlesFromLocalStorage = JSON.parse(
+      localStorage.getItem("articles")
+    );
+    if (articlesFromLocalStorage) {
+      setArticles(articlesFromLocalStorage);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await getSummary({
@@ -21,6 +30,7 @@ const Demo = () => {
       const updatedArticles = [newArticle, ...articles];
       setArticle(newArticle);
       setArticles(updatedArticles);
+      localStorage.setItem("articles", JSON.stringify(updatedArticles));
       console.log(newArticle);
     }
   };
