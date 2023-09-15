@@ -41,6 +41,13 @@ const Demo = () => {
     navigator.clipboard.writeText(copyUrl);
     setTimeout(() => setCopied(false), 1000);
   };
+  const handleSpeak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    speechSynthesis.speak(utterance);
+  };
   return (
     <section className="mt-16 w-full max-w-xl">
       <div className="flex flex-col w-full gap-2">
@@ -121,6 +128,14 @@ const Demo = () => {
           )
         )}
       </div>
+      {article.summary && (
+        <button
+          className="speak_btn"
+          onClick={() => handleSpeak(article.summary)}
+        >
+          Speak
+        </button>
+      )}
     </section>
   );
 };
