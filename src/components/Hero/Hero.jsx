@@ -17,13 +17,16 @@ const Hero = () => {
       </nav>
 
       <h1 className="head_text">
-        Summarize Ariticles width <br className="max-md:hidden" />
+        Summarize Articles with <br className="max-md:hidden" />
         <span className="orange_gradient">OpenAI GPT-4</span>
       </h1>
 
       <h2 className="desc">
-        Simplify your reading with Sumz, an open-source article summarizer that
-        transforms lengthy articles into clear an concise summaries.
+        Simplify your reading with Sumz, our <strong>open-source</strong>{" "}
+        article summarizer. Transform lengthy articles into clear concise
+        summaries, and with the added bonus of{" "}
+        <strong>text-to-speech functionality</strong>. Make your reading
+        experience even more accessible and enjoyable!!!
       </h2>
     </header>
   );
