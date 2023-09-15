@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { copy, linkIcon, loader, tick } from "../../assets";
 import { useLazyGetSummaryQuery } from "../../services/article";
+import { AiFillSound } from "react-icons/ai";
 
 const Demo = () => {
   const [article, setArticle] = useState({
@@ -116,26 +117,22 @@ const Demo = () => {
         ) : (
           article.summary && (
             <div className="flex flex-col gap-3">
-              <h2 className="font-satoshi font-bld text-grey-600 text-xl">
-                Article <span className="blue_gradient">Summary</span>
-                <div className="summary_box">
-                  <p className="font-inter font-medium text-sm text-gray-700">
-                    {article.summary}
-                  </p>
-                </div>
+              <h2 className="font-satoshi font-bld text-grey-600 text-xl flex items-center">
+                Article <span className="blue_gradient mr-1 ml-1">Summary</span>
+                <AiFillSound
+                  className="speak_btn"
+                  onClick={() => handleSpeak(article.summary)}
+                />
               </h2>
+              <div className="summary_box">
+                <p className="font-inter font-medium text-sm text-gray-700">
+                  {article.summary}
+                </p>
+              </div>
             </div>
           )
         )}
       </div>
-      {article.summary && (
-        <button
-          className="speak_btn"
-          onClick={() => handleSpeak(article.summary)}
-        >
-          Speak
-        </button>
-      )}
     </section>
   );
 };
