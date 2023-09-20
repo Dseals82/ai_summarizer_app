@@ -10,6 +10,7 @@ const Demo = () => {
   });
   const [articles, setArticles] = useState([]);
   const [copied, setCopied] = useState("");
+  const [speaking, setSpeaking] = useState(false);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
   useEffect(() => {
@@ -43,11 +44,17 @@ const Demo = () => {
     setTimeout(() => setCopied(false), 1000);
   };
   const handleSpeak = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.pitch = 1;
-    utterance.rate = 1;
-    utterance.volume = 1;
-    speechSynthesis.speak(utterance);
+    if (speechSynthesis.speaking) {
+      setSpeaking(false);
+      speechSynthesis.cancel();
+    } else {
+      setSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.pitch = 1;
+      utterance.rate = 1;
+      utterance.volume = 1;
+      speechSynthesis.speak(utterance);
+    }
   };
   return (
     <section className="mt-16 w-full max-w-xl">
@@ -120,7 +127,7 @@ const Demo = () => {
               <h2 className="font-satoshi font-bld text-grey-600 text-xl flex items-center">
                 Article <span className="blue_gradient mr-1 ml-1">Summary</span>
                 <AiFillSound
-                  className="speak_btn"
+                  className={speaking ? "speak_btn_stop" : "speak_btn"}
                   onClick={() => handleSpeak(article.summary)}
                 />
               </h2>

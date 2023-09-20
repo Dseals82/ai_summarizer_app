@@ -118,3 +118,6 @@
 .speak_btn {
   @apply text-black cursor-pointer;
 }
+.speak_btn_stop {
+  @apply text-red-600 cursor-pointer;
+}
