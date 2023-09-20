@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { copy, linkIcon, loader, tick } from "../../assets";
 import { useLazyGetSummaryQuery } from "../../services/article";
 import { AiFillSound } from "react-icons/ai";
+import { RiVolumeMuteFill } from "react-icons/ri";
 
 const Demo = () => {
   const [article, setArticle] = useState({
@@ -34,27 +35,25 @@ const Demo = () => {
       setArticle(newArticle);
       setArticles(updatedArticles);
       localStorage.setItem("articles", JSON.stringify(updatedArticles));
-      console.log(newArticle);
+      // console.log(newArticle);
     }
   };
-
   const handleCopy = (copyUrl) => {
     setCopied(copyUrl);
     navigator.clipboard.writeText(copyUrl);
     setTimeout(() => setCopied(false), 1000);
   };
   const handleSpeak = (text) => {
-    if (speechSynthesis.speaking) {
-      setSpeaking(false);
-      speechSynthesis.cancel();
-    } else {
-      setSpeaking(true);
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.pitch = 1;
-      utterance.rate = 1;
-      utterance.volume = 1;
-      speechSynthesis.speak(utterance);
-    }
+    setSpeaking(true);
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    speechSynthesis.speak(utterance);
+  };
+  const handleStopSpeaking = () => {
+    setSpeaking(false);
+    speechSynthesis.cancel();
   };
   return (
     <section className="mt-16 w-full max-w-xl">
@@ -126,10 +125,17 @@ const Demo = () => {
             <div className="flex flex-col gap-3">
               <h2 className="font-satoshi font-bld text-grey-600 text-xl flex items-center">
                 Article <span className="blue_gradient mr-1 ml-1">Summary</span>
-                <AiFillSound
-                  className={speaking ? "speak_btn_stop" : "speak_btn"}
-                  onClick={() => handleSpeak(article.summary)}
-                />
+                {!speaking && !speechSynthesis.speaking ? (
+                  <AiFillSound
+                    className="speak_btn"
+                    onClick={() => handleSpeak(article.summary)}
+                  />
+                ) : (
+                  <RiVolumeMuteFill
+                    className="speak_btn_stop"
+                    onClick={handleStopSpeaking}
+                  />
+                )}
               </h2>
               <div className="summary_box">
                 <p className="font-inter font-medium text-sm text-gray-700">
